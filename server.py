@@ -12,6 +12,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 # 此方法处理用户注册
 @app.route('/register', methods=['POST'])
 def register():
+    # 客户端传来的数据
     username = request.form['username']
     password = request.form['password']
     length = request.form['length']
@@ -20,6 +21,7 @@ def register():
     print('password:' + password + '\n')
     print('length:' + length + '\n')
     print('data:' + data + '\n')
+    # 返回给客户端的代号
     return '0'
 
 @app.route('/')
