@@ -1,2 +1,3 @@
-# handWritingServer
-手写体项目的服务器端部署
+# Server
+服务器部署
+
