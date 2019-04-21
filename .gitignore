@@ -94,6 +94,7 @@ venv.bak/
 .spyderproject
 .spyproject
 
+
 # Rope project settings
 .ropeproject
 
@@ -102,6 +103,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
 .idea
 .xml
-
+alogorithm_model/lstm/net
