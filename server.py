@@ -21,7 +21,7 @@ def register():
     print('password:' + password + '\n')
     print('length:' + length + '\n')
     print('data:' + data + '\n')
-    # 返回给客户端的代号
+    # 返回给客户端的
     return '0'
 
 @app.route('/')
