@@ -1,9 +1,11 @@
-# -*-coding:utf-8-*-
+ # -*-coding:utf-8-*-
 from flask import Flask
 from flask import request
 import os
-import matplotlib.pyplot as plt
-import numpy as np
+
+# import sys
+# sys.path.append(r'D:\gesture_authentication_project\Server-master\Server-master\data_process')
+import data_process.handler_4_21
 
 
 app = Flask(__name__)
@@ -20,38 +22,13 @@ def register():
     password = request.form['password']
     length = request.form['length']
     data = request.form['data']
-
-    # handler(username, password, length, data)
-
     print('username:' + username + '\n')
     print('password:' + password + '\n')
     print('length:' + length + '\n')
     print('data:' + data + '\n')
-    get_data(data)
-
+    data_process.handler_4_21.handler(username, data)
     # 返回给客户端的
-    return '0'
-
-def get_data(str):
-    x = []
-    y = []
-    firstdata = str.split('\n');
-
-    for str in firstdata:
-        data = str.split('!')
-        tempx = float(data[0])
-        x.append(tempx)
-        tempy = float(data[1])
-        y.append(tempy)
-    x =np.array(x)
-    print('+++++')
-    y = np.array(y)
-    plt.plot(x, y, '*', label='Data', color='black')
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.title('Data')
-    plt.legend()
-    plt.show()
+    return '1'
 
 @app.route('/')
 def test():

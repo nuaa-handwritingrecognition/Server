@@ -3,11 +3,13 @@
 '''
 import numpy as np
 import pandas as pd
+import os
 
 np.set_printoptions(suppress=True)
 
 # 数据归一化
-df = pd.read_csv('handled_data.csv', header=None)
+s_sign_all = str(os.path.dirname(os.getcwd())) + '\\data\\all_signin.csv'          # 生成记录所有人注册数据的文件名
+df = pd.read_csv(s_sign_all, header=None)
 mat = np.array(df)
 # 行数
 row_num = mat.shape[0]
