@@ -27,4 +27,4 @@ def run(path):
     print("Precision", precision_score(y_test, clf.predict(x_test)))
     print("CMatrix\n", confusion_matrix(y_test, clf.predict(x_test)))
 
-run('../../data/pre_collected_data.csv')
+run('../../data/data_transformed.csv')

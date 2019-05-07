@@ -30,10 +30,10 @@ def register():
     # print('data:' + data + '\n')
     # 返回给客户端的 '1' 代表成功
     flag = data_process.data_handler_register.handler(username, data)
-    if(flag == 1):
+    if flag == True:
         # 送进网络训练
-
-
+        # train()
+        return '1'
 
 
 
@@ -51,8 +51,11 @@ def login():
     # print('data:' + data + '\n')
     # 返回给客户端的 '1' 代表成功
     #处理数据
-    data_process.data_handler_login.handler(username, data)
-    # 送进网络预测
+    flag = data_process.data_handler_login.handler(username, data)
+    if flag == True:
+        # 送进网络预测
+        # predict()
+        return '1'
 
 
 @app.route('/')

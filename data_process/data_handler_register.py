@@ -40,4 +40,4 @@ def handler(username, data):
         # x.append(date)  # 第452列是年月日标注
         write.writerow(x)
 
-    return '1'
+    return True
