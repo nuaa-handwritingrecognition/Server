@@ -5,7 +5,8 @@ import os
 
 # import sys
 # sys.path.append(r'D:\gesture_authentication_project\Server-master\Server-master\data_process')
-import data_process.handler_4_21
+import data_process.data_handler_login
+import data_process.data_handler_register
 
 
 app = Flask(__name__)
@@ -18,17 +19,41 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 @app.route('/register', methods=['POST'])
 def register():
     # 客户端传来的数据
+    # 需要保证用户名唯一
     username = request.form['username']
     password = request.form['password']
-    length = request.form['length']
+    # length = request.form['length']
     data = request.form['data']
-    print('username:' + username + '\n')
-    print('password:' + password + '\n')
-    print('length:' + length + '\n')
-    print('data:' + data + '\n')
-    data_process.handler_4_21.handler(username, data)
-    # 返回给客户端的
-    return '1'
+    # print('username:' + username + '\n')
+    # print('password:' + password + '\n')
+    # print('length:' + length + '\n')
+    # print('data:' + data + '\n')
+    # 返回给客户端的 '1' 代表成功
+    flag = data_process.data_handler_register.handler(username, data)
+    if(flag == 1):
+        # 送进网络训练
+
+
+
+
+
+# 此方法处理用户注册
+@app.route('/login', methods=['POST'])
+def login():
+    # 客户端传来的数据
+    username = request.form['username']
+    password = request.form['password']
+    # length = request.form['length']
+    data = request.form['data']
+    # print('username:' + username + '\n')
+    # print('password:' + password + '\n')
+    # print('length:' + length + '\n')
+    # print('data:' + data + '\n')
+    # 返回给客户端的 '1' 代表成功
+    #处理数据
+    data_process.data_handler_login.handler(username, data)
+    # 送进网络预测
+
 
 @app.route('/')
 def test():
