@@ -7,7 +7,7 @@ import os
 # sys.path.append(r'D:\gesture_authentication_project\Server-master\Server-master\data_process')
 import data_process.data_handler_login
 import data_process.data_handler_register
-
+import alogirithm_model.svm.realize
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -32,7 +32,6 @@ def register():
     flag = data_process.data_handler_register.handler(username, data)
     if flag == True:
         # 送进网络训练
-        # train()
         return '1'
 
 
@@ -51,11 +50,12 @@ def login():
     # print('data:' + data + '\n')
     # 返回给客户端的 '1' 代表成功
     #处理数据
-    flag = data_process.data_handler_login.handler(username, data)
-    if flag == True:
-        # 送进网络预测
-        # predict()
-        return '1'
+    user_data_path = data_process.data_handler_login.handler(username, data)
+    return alogirithm_model.svm.realize.handler(user_data_path)
+        # # 送进网络预测
+        # # predict()
+        # run('')
+        # return '1'
 
 
 @app.route('/')
