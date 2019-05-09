@@ -1,4 +1,4 @@
- # -*-coding:utf-8-*-
+# -*-coding:utf-8-*-
 from flask import Flask
 from flask import request
 import os
@@ -24,16 +24,15 @@ def register():
     password = request.form['password']
     # length = request.form['length']
     data = request.form['data']
-    # print('username:' + username + '\n')
+    print('username:' + username + '\n')
     # print('password:' + password + '\n')
     # print('length:' + length + '\n')
-    # print('data:' + data + '\n')
+    print('data:' + data + '\n')
     # 返回给客户端的 '1' 代表成功
     flag = data_process.data_handler_register.handler(username, data)
     if flag == True:
         # 送进网络训练
         return '1'
-
 
 
 # 此方法处理用户注册
@@ -49,18 +48,19 @@ def login():
     # print('length:' + length + '\n')
     # print('data:' + data + '\n')
     # 返回给客户端的 '1' 代表成功
-    #处理数据
+    # 处理数据
     user_data_path = data_process.data_handler_login.handler(username, data)
-    return alogirithm_model.svm.realize.handler(user_data_path)
-        # # 送进网络预测
-        # # predict()
-        # run('')
-        # return '1'
+    return alogirithm_model.svm.realize.handler(user_data_path, username)
+    # # 送进网络预测
+    # # predict()
+    # run('')
+    # return '1'
 
 
 @app.route('/')
 def test():
     return '服务器正常运行'
+
 
 if __name__ == '__main__':
     # 将本机设为服务器，且允许外网访问
