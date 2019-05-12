@@ -20,8 +20,8 @@ test_src_path = './../../data/individual_login/7654321-2019-5-10-22.csv'
 # 读取csv文件
 def read_csv(src_path, username):
     data1 = np.loadtxt(src_path, dtype=float, delimiter=',').reshape(-1, 451)  # 4 是指第 5 列
-    print(data1)
-    print(data1.shape)
+    # print(data1)
+    # print(data1.shape)
     x_train, y_train = np.split(data1, (450,), axis=1)  # axis=0 为横向切分 ， axis=1 为纵向切分
     for i in range(y_train.shape[0]):
         if str(int(y_train[i][0])) != username:
@@ -110,8 +110,8 @@ def test_handler(src_path, username):
         y_pred = np.zeros((y_test.shape[0],))
         y_true = np.zeros((y_test.shape[0],))
 
-        print(x_test[0])
-        print(x_test[0].reshape(1, -1))
+        # print(x_test[0])
+        # print(x_test[0].reshape(1, -1))
         for step in range(y_test.shape[0]):
             prediction = sess.run(output, {x: x_test[step].reshape(1, -1)})
             pred_one_hot = np.argmax(prediction, axis=1)
