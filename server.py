@@ -3,8 +3,6 @@ from flask import Flask
 from flask import request
 import os
 
-# import sys
-# sys.path.append(r'D:\gesture_authentication_project\Server-master\Server-master\data_process')
 import data_process.data_handler_login
 import data_process.data_handler_register
 import alogirithm_model.svm.realize
@@ -23,16 +21,15 @@ def register():
     # 需要保证用户名唯一
     username = request.form['username']
     password = request.form['password']
-    # length = request.form['length']
     data = request.form['data']
     print('username:' + username + '\n')
-    # print('password:' + password + '\n')
-    # print('length:' + length + '\n')
     print('data:' + data + '\n')
     # 返回给客户端的 '1' 代表成功
     user_data_path = data_process.data_handler_register.handler(username, data)
     # 送进网络训练
-    return alogirithm_model.lstm.realize.train_handler("G:\\handWritingRecognition\\Server\\data\\all_register.csv",username)
+    print(username + ' register success')
+    return alogirithm_model.lstm.realize.train_handler("G:\\handWritingRecognition\\Server\\data\\all_register.csv",
+                                                       username)
 
 
 # 此方法处理用户注册
@@ -41,19 +38,16 @@ def login():
     # 客户端传来的数据
     username = request.form['username']
     password = request.form['password']
-    # length = request.form['length']
     data = request.form['data']
-    # print('username:' + username + '\n')
-    # print('password:' + password + '\n')
-    # print('length:' + length + '\n')
-    # print('data:' + data + '\n')
     # 返回给客户端的 '1' 代表成功
     # 处理数据
     user_data_path = data_process.data_handler_login.handler(username, data)
-    # 送进网络预测
+    # svm 方法预测
     # return alogirithm_model.svm.realize.handler(user_data_path, username)
-    return alogirithm_model.lstm.realize.test_handler(user_data_path,username)
-
+    # lstm 方法预测
+    # return alogirithm_model.lstm.realize.test_handler(user_data_path,username)
+    print(username + ' login success')
+    return '1'
 
 
 @app.route('/')
