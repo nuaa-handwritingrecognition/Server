@@ -41,11 +41,11 @@ def login():
     # 处理数据
     user_data_path = data_process.data_handler_login.handler(phone, data)
     # svm 方法预测
-    # return alogirithm_model.svm.realize.handler(user_data_path, username)
+    # return alogirithm_model.svm.realize.handler(user_data_path, phone)
     # lstm 方法预测
-    # return alogirithm_model.lstm.realize.test_handler(user_data_path,username)
+    return alogirithm_model.lstm.realize.test_handler(user_data_path,phone)
     print(phone + ' login success')
-    return '1'
+    # return '1'
 
 
 @app.route('/')
