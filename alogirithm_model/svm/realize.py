@@ -6,6 +6,7 @@ import matplotlib as mpl
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import precision_score, recall_score, confusion_matrix
+import util.constant_util
 
 train_path = 'G:\\handWritingRecognition\\Server\\data\\all_register.csv'
 
@@ -40,8 +41,8 @@ def handler(path, username):
     print("-----------")
     print(y_test)
     if (clf.predict(x_test) == y_test):
-        return '1'
-    return '0'
+        return util.constant_util.SUCCESS
+    return util.constant_util.FAILURE
 
     # print ('训练集准确率：', accuracy_score(y_train, clf.predict(x_train)))
     # print ('测试集准确率：', accuracy_score(y_test, clf.predict(x_test)))

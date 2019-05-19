@@ -106,4 +106,8 @@ venv.bak/
 
 .idea
 .xml
+
 alogorithm_model/lstm/net
+data/individual_login
+data/individual_register
+data/pre_collected_data.csv

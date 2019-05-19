@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 import tensorflow as tf
 import numpy as np
+import threading
+import util.constant_util
+
+global train_flag
+train_flag = 1
 
 # 参数
 N_classes = 2  # 类别个数（二分类）
@@ -36,22 +41,22 @@ def read_csv(src_path, username):
     return (x_train, y_train)
 
 
-def train_handler(src_path, username):
-    x_train, y_train = read_csv(src_path, username)
-    cnt = 0
-    # 将测试集和训练集全部转化为numpy类型数据
-    with tf.Session() as sess:
-        sess.run(tf.global_variables_initializer())
-        y_train = y_train.eval(session=sess)
-        x_train = np.array(x_train)
-    for i in range(y_train.shape[0]):
-        if int(y_train[i][0]) == 0:
-            cnt += 1
-    # print(cnt)
-    #  待用户注册数据收集到10份的时候再做训练
-    if cnt != 10:
-        return '1'
+class myThread(threading.Thread):
+    def __init__(self, threadID, x_train, y_train):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.x_train = x_train
+        self.y_train = y_train
 
+    def run(self):
+        print('train start')
+        train(self.x_train, self.y_train)
+        global train_flag
+        train_flag = 1
+        print('train end')
+
+
+def train(x_train, y_train):
     graph1 = tf.Graph()
     with graph1.as_default():
         x = tf.placeholder(tf.float64, [None, time_step * input_size])
@@ -82,10 +87,34 @@ def train_handler(src_path, username):
             _, loss_ = sess.run([train_op, loss], {x: x_train, y: y_train})
         saver.save(sess, 'net/my_net.ckpt')
 
-    return '1'
+
+def train_handler(src_path, username):
+    global train_flag
+    train_flag = 0
+    x_train, y_train = read_csv(src_path, username)
+    cnt = 0
+    # 将测试集和训练集全部转化为numpy类型数据
+    with tf.Session() as sess:
+        sess.run(tf.global_variables_initializer())
+        y_train = y_train.eval(session=sess)
+        x_train = np.array(x_train)
+    for i in range(y_train.shape[0]):
+        if int(y_train[i][0]) == 0:
+            cnt += 1
+    # print(cnt)
+
+    if cnt != 10:
+        return util.constant_util.SUCCESS
+    #  待用户注册数据收集到10份的时候开一个线程再做训练
+    thread = myThread(1, x_train, y_train)
+    thread.start()
+    return util.constant_util.SUCCESS
 
 
 def test_handler(src_path, username):
+    # 模型正在训练，无法预测
+    if train_flag == 0:
+        return util.constant_util.TRAINING
     x_test, y_test = read_csv(src_path, username)
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
@@ -119,18 +148,18 @@ def test_handler(src_path, username):
             # 450 * 1 -> 1 * 450
             y_true[step] = np.argmax(y_test[step].reshape(1, -1))
 
-            print("预测用户为：", pred_one_hot[0], end=' ')
-            print("实际用户为：", np.argmax(y_test[step].reshape(1, -1)))
+            # print("预测用户为：", pred_one_hot[0], end=' ')
+            # print("实际用户为：", np.argmax(y_test[step].reshape(1, -1)))
 
             if pred_one_hot[0] == np.argmax(y_test[step].reshape(1, -1)):
-                return '1'
+                return util.constant_util.SUCCESS
             else:
-                return '0'
+                return util.constant_util.FAILURE
 
 # print("Recall", recall_score(y_true, y_pred))
 # print("Precision", precision_score(y_true, y_pred))
 # print("CMatrix\n", confusion_matrix(y_true, y_pred))
 
 
-# train_handler(all_register, '7654321')
+# train_handler(all_register, '333')
 # test_handler(test_src_path, '7654321')
