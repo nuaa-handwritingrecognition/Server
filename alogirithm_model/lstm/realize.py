@@ -116,6 +116,7 @@ def test_handler(src_path, username):
     if train_flag == 0:
         return util.constant_util.TRAINING
     x_test, y_test = read_csv(src_path, username)
+
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
         y_test = y_test.eval(session=sess)
@@ -162,4 +163,4 @@ def test_handler(src_path, username):
 
 
 # train_handler(all_register, '333')
-# test_handler(test_src_path, '7654321')
+# test_handler(test_src_path, '333')

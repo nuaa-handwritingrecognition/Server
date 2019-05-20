@@ -7,6 +7,7 @@ import data_process.data_handler_login
 import data_process.data_handler_register
 import alogirithm_model.svm.realize
 import alogirithm_model.lstm.realize
+import alogirithm_model.knn.realize
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -42,8 +43,10 @@ def login():
     user_data_path = data_process.data_handler_login.handler(phone, data)
     # svm 方法预测
     # return alogirithm_model.svm.realize.handler(user_data_path, phone)
-    # lstm 方法预测
-    return alogirithm_model.lstm.realize.test_handler(user_data_path,phone)
+    # KNN 方法预测
+    # return alogirithm_model.knn.realize.handler(user_data_path, phone)
+    # LSTM 方法预测
+    return alogirithm_model.lstm.realize.test_handler(user_data_path, phone)
     print(phone + ' login success')
     # return '1'
 
